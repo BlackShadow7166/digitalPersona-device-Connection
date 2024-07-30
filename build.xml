@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- You may freely edit this file. See commented blocks below for -->
-<!-- some examples of how to customize the build. -->
-<!-- (If you delete it and reopen the project it will be recreated.) -->
-<!-- By default, only the Clean and Build commands use this build script. -->
-<!-- Commands such as Run, Debug, and Test only use this build script if -->
-<!-- the Compile on Save feature is turned off for the project. -->
-<!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
-<!-- in the project's Project Properties dialog box.-->
-<project name="JavaApplication2" default="default" basedir=".">
+<project name="JavaApplication2" default="jar" basedir=".">
     <description>Builds, tests, and runs the project JavaApplication2.</description>
+    
+    <!-- Load the standard build properties -->
     <import file="nbproject/build-impl.xml"/>
+
+    <!-- Target to create a lib directory in dist and copy dependencies -->
+    <target name="prepare">
+        <mkdir dir="dist/lib"/>
+        <copy todir="dist/lib">
+            <fileset dir="lib"/>
+        </copy>
+    </target>
+
+    <!-- Target to create an executable JAR file -->
+    <target name="jar" depends="compile, prepare">
+        <jar destfile="dist/JavaApplication2.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="javaapplication2.JavaApplication2"/>
+                <attribute name="Class-Path" value="lib/dpuareu.jar lib/Java-WebSocket-1.5.2.jar lib/slf4j-api-1.7.30.jar lib/slf4j-simple-1.7.30.jar lib/jackson-annotations-2.17.0.jar lib/jackson-core-2.17.0.jar lib/jackson-databind-2.17.0.jar"/>
+            </manifest>
+        </jar>
+    </target>
+
     <!--
 
     There exist several targets which are by default empty and which can be 
@@ -25,7 +38,7 @@
       -pre-compile-test:         called before javac compilation of JUnit tests
       -post-compile-test:        called after javac compilation of JUnit tests
       -pre-compile-test-single:  called before javac compilation of single JUnit test
-      -post-compile-test-single: called after javac compilation of single JUunit test
+      -post-compile-test-single: called after javac compilation of single JUnit test
       -pre-jar:                  called before JAR building
       -post-jar:                 called after JAR building
       -post-clean:               called after cleaning build products
@@ -71,3 +84,4 @@
 
     -->
 </project>
+
